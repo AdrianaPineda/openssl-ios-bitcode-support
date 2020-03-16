@@ -1,19 +1,22 @@
 Pod::Spec.new do |s|
   s.name            = "OpenSSLBitcode"
-  s.version         = "1.1.8"
+  s.version         = "1.0.221"
   s.summary         = "OpenSSL is an SSL/TLS and Crypto toolkit. Deprecated in Mac OS and gone in iOS, this spec gives your project non-deprecated OpenSSL support."
   s.author          = "OpenSSL Project <openssl-dev@openssl.org>"
 
   s.homepage        = "https://github.com/AdrianaPineda/openssl-ios-pod-bitcode-support"
   s.license         = 'BSD-style Open Source'
-  s.source          = { :http => "https://openssl.org/source/openssl-1.1.0h.tar.gz", :sha1 => "0fc39f6aa91b6e7f4d05018f7c5e991e1d2491fd"}
+  s.source          = { :http => "https://www.openssl.org/source/openssl-1.0.2u.tar.gz", :sha1 => "740916d79ab0d209d2775277b1c6c3ec2f6502b2"}
   s.source_files    = "opensslIncludes/openssl/*.h"
   s.header_dir      = "openssl"
-  s.license         = { :type => 'OpenSSL (OpenSSL/SSLeay)', :file => 'LICENSE' }
+  s.license	        = { :type => 'OpenSSL (OpenSSL/SSLeay)', :file => 'LICENSE' }
 
   s.prepare_command = <<-CMD
 
-    VERSION="1.1.0h"
+    VERSION_NUMBER="1.0.2"
+    VERSION_LETTER="a"
+    VERSION="${VERSION_NUMBER}${VERSION_LETTER}"
+    echo "version ${VERSION}"
     SDKVERSION=`xcrun --sdk iphoneos --show-sdk-version 2> /dev/null`
     MIN_SDK_VERSION_FLAG="-miphoneos-version-min=7.0"
 
@@ -25,7 +28,13 @@ Pod::Spec.new do |s|
     mkdir -p "${CURRENTPATH}"
     mkdir -p "${CURRENTPATH}/bin"
 
-    cp "file.tgz" "${CURRENTPATH}/file.tgz"
+    # Cocoapods no longer seems to leave the source file
+    # in the Pod directory as this script expects, so we
+    # download it again here.
+    echo "Downloading source..."
+    curl https://www.openssl.org/source/old/${VERSION_NUMBER}/openssl-${VERSION}.tar.gz --output "${CURRENTPATH}/file.tgz"
+
+    echo ${CURRENTPATH}
     cd "${CURRENTPATH}"
     tar -xzf file.tgz
     cd "openssl-${VERSION}"

@@ -1,19 +1,21 @@
 Pod::Spec.new do |s|
   s.name            = "OpenSSLBitcode"
-  s.version         = "1.0.112"
+  s.version         = "1.0.121"
   s.summary         = "OpenSSL is an SSL/TLS and Crypto toolkit. Deprecated in Mac OS and gone in iOS, this spec gives your project non-deprecated OpenSSL support."
   s.author          = "OpenSSL Project <openssl-dev@openssl.org>"
 
   s.homepage        = "https://github.com/AdrianaPineda/openssl-ios-pod-bitcode-support"
   s.license         = 'BSD-style Open Source'
-  s.source          = { :http => "https://www.openssl.org/source/openssl-1.0.2l.tar.gz", :sha1 => "b58d5d0e9cea20e571d903aafa853e2ccd914138"}
+  s.source          = { :http => "https://www.openssl.org/source/openssl-1.0.1u.tar.gz", :sha1 => "93e542696598517862115fbe76a93ab66369661d"}
   s.source_files    = "opensslIncludes/openssl/*.h"
   s.header_dir      = "openssl"
   s.license	        = { :type => 'OpenSSL (OpenSSL/SSLeay)', :file => 'LICENSE' }
 
   s.prepare_command = <<-CMD
 
-    VERSION="1.0.2l"
+    VERSION_NUMBER="1.0.1"
+    VERSION="${VERSION_NUMBER}u"
+    echo "version ${VERSION}"
     SDKVERSION=`xcrun --sdk iphoneos --show-sdk-version 2> /dev/null`
     MIN_SDK_VERSION_FLAG="-miphoneos-version-min=7.0"
 
@@ -29,7 +31,7 @@ Pod::Spec.new do |s|
     # in the Pod directory as this script expects, so we
     # download it again here.
     echo "Downloading source..."
-    curl https://www.openssl.org/source/old/1.0.2/openssl-1.0.2l.tar.gz --output "${CURRENTPATH}/file.tgz"
+    curl https://www.openssl.org/source/old/${VERSION_NUMBER}/openssl-${VERSION}.tar.gz --output "${CURRENTPATH}/file.tgz"
 
     echo ${CURRENTPATH}
     cd "${CURRENTPATH}"
