@@ -1,6 +1,8 @@
 # openssl-ios-bitcode-support
 Spec repo for openssl with bitcode support
 
+This project is based on: https://github.com/FredericJacobs/OpenSSL-Pod
+
 # Versioning
 Versioning is the same as: https://github.com/FredericJacobs/OpenSSL-Pod
 
